@@ -1,0 +1,119 @@
+ALTER VIEW db_exam_exam_schedules_view AS
+SELECT db_exam_exam_schedules.id AS id,db_exam_exams.id AS exam_id,db_exam_exams.name AS exam_name,db_exam_exam_schedules.class_id AS class_id,
+db_academic_classes.name AS class_name,db_academic_sections.id AS section_id ,db_academic_sections.name AS section_name
+,db_academic_subjects.id AS subject_id,db_academic_subjects.subject_name AS subject_name,
+db_exam_exam_schedules.date AS exam_date,db_exam_exam_schedules.from_time AS from_time,
+db_exam_exam_schedules.to_time AS to_time,db_rooms.id AS room_id,db_rooms.name AS room_name,db_mark_mark_distributions.id AS mark_distribution_id,
+db_mark_mark_distributions.type AS mark_distribution_type
+FROM db_exam_exam_schedules
+LEFT JOIN db_academic_classes
+ON db_exam_exam_schedules.class_id= db_academic_classes.id
+LEFT JOIN db_academic_sections
+ON db_exam_exam_schedules.section_id= db_academic_sections.id
+LEFT JOIN db_academic_subjects
+ON db_exam_exam_schedules.subject_id= db_academic_subjects.id
+LEFT JOIN db_rooms
+ON db_exam_exam_schedules.room_id= db_rooms.id
+LEFT JOIN db_exam_exams
+ON db_exam_exam_schedules.exam_id= db_exam_exams.id
+LEFT JOIN db_mark_mark_distributions
+ON db_exam_exam_schedules.mark_distribution_id= db_mark_mark_distributions.id
+----------------------------------------------------------------------------------------------------------------------------------------
+[Imran]
+CREATE VIEW db_academic_sections_view AS
+SELECT db_academic_sections.id AS id,db_academic_sections.name AS section_name,db_academic_sections.class_id AS class_id,
+db_academic_sections.catagory AS catagory,db_academic_sections.capacity AS capacity,
+db_teacher_teachers.name AS teacher_name,db_academic_sections.note AS note
+FROM db_academic_sections
+INNER JOIN db_teacher_teachers
+ON db_academic_sections.teacher_id= db_teacher_teachers.id
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+SELECT db_exam_exam_attendances.id AS id,db_exam_exams.id AS exam_id,db_exam_exams.name AS exam_name,db_exam_exam_schedules.class_id AS class_id,
+db_academic_classes.name AS class_name,db_academic_sections.id AS section_id ,db_academic_sections.name AS section_name
+,db_academic_subjects.id AS subject_id,db_academic_subjects.subject_name AS subject_name,db_student_students.name AS student_name,
+db_student_students.photo AS student_photo,db_student_students.roll AS student_roll,db_student_students.email AS student_email,
+db_exam_exam_attendances.value AS attendance_value
+FROM db_exam_exam_attendances
+LEFT JOIN db_exam_exam_schedules
+ON db_exam_exam_attendances.exam_schedule_id= db_exam_exam_schedules.id
+LEFT JOIN db_student_students
+ON db_exam_exam_attendances.student_id= db_student_students.id
+LEFT JOIN db_academic_classes
+ON db_exam_exam_schedules.class_id= db_academic_classes.id
+LEFT JOIN db_academic_sections
+ON db_exam_exam_schedules.section_id= db_academic_sections.id
+LEFT JOIN db_academic_subjects
+ON db_exam_exam_schedules.subject_id= db_academic_subjects.id
+LEFT JOIN db_exam_exams
+ON db_exam_exam_schedules.exam_id= db_exam_exams.id
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE VIEW db_mark_marks_view AS
+SELECT db_mark_marks.id AS id,
+db_exam_exams.id AS exam_id,db_exam_exams.name AS exam_name,db_exam_exam_schedules.class_id AS class_id,
+db_academic_classes.name AS class_name,db_academic_sections.id AS section_id ,db_academic_sections.name AS section_name
+,db_academic_subjects.id AS subject_id,db_academic_subjects.subject_name AS subject_name,db_student_students.name AS student_name,
+db_student_students.photo AS student_photo,db_student_students.roll AS student_roll,db_student_students.email AS student_email,
+db_exam_exam_attendances.value AS attendance_value ,db_mark_mark_distributions.type AS mark_type,db_mark_mark_distributions.value AS mark_value,
+db_mark_mark_distributions.gained_mark AS gained_mark,db_mark_mark_distributions.highest_mark AS highest_mark,db_mark_marks.total_mark AS total_mark,db_mark_marks.grade_id AS grade_id
+,db_exam_grades.grade_name AS grade_name,db_exam_grades.grade_point AS grade_point
+FROM db_mark_marks
+LEFT JOIN db_exam_exam_attendances
+ON db_mark_marks.attendance_id= db_exam_exam_attendances.id
+LEFT JOIN db_exam_exam_schedules
+ON db_exam_exam_attendances.exam_schedule_id= db_exam_exam_schedules.id
+LEFT JOIN db_student_students
+ON db_exam_exam_attendances.student_id= db_student_students.id
+LEFT JOIN db_academic_classes
+ON db_exam_exam_schedules.class_id= db_academic_classes.id
+LEFT JOIN db_academic_sections
+ON db_exam_exam_schedules.section_id= db_academic_sections.id
+LEFT JOIN db_academic_subjects
+ON db_exam_exam_schedules.subject_id= db_academic_subjects.id
+LEFT JOIN db_exam_exams
+ON db_exam_exam_schedules.exam_id= db_exam_exams.id
+LEFT JOIN db_mark_mark_distributions
+ON db_mark_marks.mark_distribution_id= db_mark_mark_distributions.id
+LEFT JOIN db_exam_grades
+ON db_mark_marks.grade_id= db_exam_grades.id
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+ALTER VIEW db_mark_total_marks_view AS
+SELECT db_mark_marks_view.id AS id,
+db_mark_marks_view.exam_id AS exam_id,
+db_mark_marks_view.exam_name AS exam_name,
+db_mark_marks_view.class_id AS class_id,
+db_mark_marks_view.class_name AS class_name,
+db_mark_marks_view.section_id AS section_id ,
+db_mark_marks_view.section_name AS section_name,
+db_mark_marks_view.subject_id AS subject_id,
+db_mark_marks_view.subject_name AS subject_name,
+db_mark_marks_view.student_name AS student_name,
+db_mark_marks_view.student_id AS student_id,
+db_mark_marks_view.student_photo AS student_photo,
+db_mark_marks_view.student_roll AS student_roll,
+db_mark_marks_view.attendance_value AS attendance_value,
+db_mark_marks_view.mark_type AS mark_type,
+db_mark_marks_view.mark_value AS mark_value,
+db_mark_marks_view.attendance_id AS attendance_id,
+db_mark_marks_view.gained_mark AS gained_mark,
+db_mark_marks_view.highest_mark AS highest_mark,
+db_mark_marks_view.mark_distribution_id AS mark_distribution_id,
+db_mark_total_marks.total_mark AS total_mark,
+db_mark_total_marks.grade_id AS grade_id
+
+FROM db_mark_marks_view
+LEFT JOIN db_mark_total_marks
+ON db_mark_marks_view.exam_id= db_mark_total_marks.exam_id AND db_mark_marks_view.student_id= db_mark_total_marks.student_id
+AND db_mark_marks_view.subject_id= db_mark_total_marks.subject_id;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+

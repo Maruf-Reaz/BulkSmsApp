@@ -1,0 +1,205 @@
+composer.jso =>
+
+
+{
+  "require": {
+    "phpmailer/phpmailer": "~6.0"
+  },
+  "autoload": {
+    "classmap":[
+      "app/models/User.php",
+      "app/controllers",
+      "app/libraries"
+    ]
+  }
+}
+
+
+<table class="table table-border table-striped table-earning">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ttile</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                    <th>Uploader</th>
+                                    <th>File</th>
+                                    <th>Action</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($data['syllabuses'] as $syllabus): ?>
+                                    <tr>
+                                        <td>#</td>
+                                        <td><?php echo $syllabus->title; ?></td>
+                                        <td><?php echo $syllabus->description; ?></td>
+                                        <td><?php echo $syllabus->date; ?></td>
+                                        <td><?php echo $syllabus->user_id; ?></td>
+                                        <td><?php echo $syllabus->file; ?></td>
+                                        <td>
+                                            <a onclick=""
+                                               href="<?php echo URLROOT ?>/file/<?php echo $syllabus->filename; ?>"
+                                               class="btn btn-primary"><i class="zmdi zmdi-download"></i> download</a>&nbsp;
+                                            <a onclick=""
+                                               href="<?php echo URLROOT ?>/academic/syllabuses/edit/<?php echo $syllabus->id; ?>"
+                                               class="btn btn-primary"><i class="zmdi zmdi-edit"></i> edit</a>&nbsp;
+                                            <a onclick="alert('Are you sure ?')"
+                                               href="<?php echo URLROOT ?>/academic/syllabuses/delete/<?php echo $syllabus->id; ?>"
+                                               class="btn btn-danger"><i class="zmdi zmdi-block"></i> delete</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+
+
+
+                            <!--School Year-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="school_year" class=" form-control-label">School Year:
+                                                                        <sup>*</sup></label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <select name="school_year" id="school_year" required
+                                                                            class="form-control">
+                                                                        <option value="0">Please select</option>
+                            											<?php foreach ( $data['academic_years'] as $year ): ?>
+                            												<?php if ( isset( $data['routine'] ) ): ?>
+                            													<?php if ( $year->id == $data['routine']->school_year ): ?>
+                                                                                    <option selected value="<?php echo $year->id ?>"><?php echo $year->year; ?></option>
+                            													<?php endif; ?>
+                            												<?php endif; ?>
+                                                                            <option value="<?php echo $year->id ?>"><?php echo $year->year; ?></option>
+                            											<?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Class-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="class_id" class=" form-control-label">Class :
+                                                                        <sup>*</sup> </label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <select name="class_id" id="class" required
+                                                                            class="form-control">
+                                                                        <option value="">Please select</option>
+                            											<?php foreach ( $data['classes'] as $class ): ?>
+                                                                            <option value="<?php echo $class->id ?>"><?php echo $class->name; ?></option>
+                            											<?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Section-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="section_id" class=" form-control-label">Section :
+                                                                        <sup>*</sup></label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9 select2-container">
+                                                                    <select class="select2-dropdown form-control" name="sections[]"
+                                                                            multiple="multiple" id="section_id"
+                                                                            required>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Subject-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="subject_id" class=" form-control-label">Subject :
+                                                                        <sup>*</sup> </label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <select name="subject_id" id="subject_id" required
+                                                                            class="form-control">
+                                                                        <option value="">Please select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Days-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="day_id" class=" form-control-label">Days:
+                                                                        <sup>*</sup> </label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <select name="day_id" id="day_id" required
+                                                                            class="form-control">
+                                                                        <option value="">Please select</option>
+                            											<?php foreach ( $data['days'] as $days ): ?>
+                                                                            <option value="<?php echo $days->id ?>"><?php echo $days->name; ?></option>
+                            											<?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Teacher Name-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="teacher_id" class=" form-control-label">Teacher Name:
+                                                                        <sup>*</sup> </label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <select name="teacher_id" id="teacher_id" required
+                                                                            class="form-control">
+                                                                        <option value="">Please select</option>
+                            											<?php foreach ( $data['teachers'] as $teacher ): ?>
+                                                                            <option value="<?php echo $teacher->id ?>"><?php echo $teacher->name; ?></option>
+                            											<?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Starting Time-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="starting_time" class=" form-control-label">Starting Time:
+                                                                        <sup>*</sup></label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <div id="FromTime" data-placement="left" data-align="bottom"
+                                                                         data-autoclose="true">
+                                                                        <input type="text" id="starting_time" name="starting_time" required
+                                                                               autocomplete="off"
+                                                                               class="form-control" placeholder="Selected time">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Ending Time-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="ending_time" class=" form-control-label">Ending Time:
+                                                                        <sup>*</sup></label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <div id="ending_time" data-placement="left" data-align="bottom"
+                                                                         data-autoclose="true">
+                                                                        <input type="text" id="ending_time" name="ending_time" required
+                                                                               autocomplete="off"
+                                                                               class="form-control" placeholder="Selected time">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--Room-->
+                                                            <div class="row form-group">
+                                                                <div class="col col-md-3">
+                                                                    <label for="select" class=" form-control-label">Room:
+                                                                        <sup>*</sup> </label>
+                                                                </div>
+                                                                <div class="col-12 col-md-9">
+                                                                    <select name="room_id" id="room_id" required
+                                                                            class="form-control">
+                                                                        <option value="">Please select</option>
+                            											<?php foreach ( $data['rooms'] as $rooms ): ?>
+                                                                            <option value="<?php echo $rooms->id ?>"><?php echo $rooms->name; ?></option>
+                            											<?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!--Submit Button-->
+                                                            <div class="card-footer">
+                                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                                    <i class="fa fa-dot-circle-o"></i> Add
+                                                                </button>
+                                                            </div>
